@@ -386,6 +386,7 @@ export default function App() {
             onResume={() => setGameState('RUNNING')}
             onPause={() => setGameState('PAUSED')}
             onRestart={handleStartGame}
+            onGoToMenu={() => setGameState('START')}
             onToggleMute={() => setIsMuted(prev => !prev)}
             activePowerUps={activePowerUps}
             

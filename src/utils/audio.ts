@@ -1,6 +1,8 @@
 export class GameAudio {
   private ctx: AudioContext | null = null;
   private isMuted: boolean = false;
+  private isFocusSuspended: boolean = false;
+  private eventsBound: boolean = false;
 
   // Audio nodes for volume separation
   private masterGain: GainNode | null = null;
@@ -28,7 +30,7 @@ export class GameAudio {
 
   init() {
     if (this.ctx) {
-      if (this.ctx.state === 'suspended') {
+      if (this.ctx.state === 'suspended' && !this.isFocusSuspended) {
         this.ctx.resume();
       }
       return;
@@ -62,6 +64,9 @@ export class GameAudio {
     // Bootstrap general assets
     this.generateNoiseBuffer();
     
+    // Bind focus events for pausing/resuming background audio
+    this.bindFocusEvents();
+
     // Start continuous loops
     this.startAmbience();
     this.startMusicScheduler();
@@ -191,6 +196,13 @@ export class GameAudio {
 
     const scheduler = () => {
       if (!this.ctx) return;
+      if (this.ctx.state === 'suspended' || this.isFocusSuspended) return;
+
+      // Sync nextNoteTime to context time if we've been suspended/paused
+      if (this.nextNoteTime < this.ctx.currentTime) {
+        this.nextNoteTime = this.ctx.currentTime;
+      }
+
       // Lookahead window: schedule notes 150ms in advance
       while (this.nextNoteTime < this.ctx.currentTime + 0.150) {
         this.scheduleStep(this.currentStep, this.nextNoteTime, playDelayedSynth);
@@ -577,6 +589,43 @@ export class GameAudio {
     noise.start(now);
     osc.stop(now + 0.35);
     noise.stop(now + 0.30);
+  }
+
+  suspendFromLostFocus() {
+    if (!this.ctx || this.isFocusSuspended) return;
+    this.isFocusSuspended = true;
+    this.ctx.suspend().catch(e => console.error("Failed to suspend AudioContext on lost focus", e));
+  }
+
+  resumeFromRegainedFocus() {
+    if (!this.ctx || !this.isFocusSuspended) return;
+    this.isFocusSuspended = false;
+    this.ctx.resume().catch(e => console.error("Failed to resume AudioContext on focus regain", e));
+  }
+
+  private bindFocusEvents() {
+    if (this.eventsBound) return;
+    this.eventsBound = true;
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        this.suspendFromLostFocus();
+      } else {
+        this.resumeFromRegainedFocus();
+      }
+    };
+
+    const handleBlur = () => {
+      this.suspendFromLostFocus();
+    };
+
+    const handleFocus = () => {
+      this.resumeFromRegainedFocus();
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('blur', handleBlur);
+    window.addEventListener('focus', handleFocus);
   }
 }
 

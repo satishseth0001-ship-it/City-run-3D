@@ -17,6 +17,7 @@ interface HUDProps {
   onResume: () => void;
   onPause: () => void;
   onRestart: () => void;
+  onGoToMenu: () => void;
   onToggleMute: () => void;
   activePowerUps?: {
     magnet: number;
@@ -76,6 +77,7 @@ export default function HUD({
   onResume,
   onPause,
   onRestart,
+  onGoToMenu,
   onToggleMute,
   activePowerUps = { magnet: 0, shield: false, multiplier: 0, boost: 0 },
   
@@ -791,14 +793,26 @@ export default function HUD({
                 </div>
               )}
 
-              {/* RUN AGAIN trigger */}
-              <button
-                onClick={onRestart}
-                id="play-again-button"
-                className="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-[11px] uppercase tracking-widest rounded-xl shadow-lg hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer"
-              >
-                RUN AGAIN
-              </button>
+              {/* CONTROL BUTTONS GROUP */}
+              <div className="w-full flex flex-col gap-2">
+                {/* RUN AGAIN trigger */}
+                <button
+                  onClick={onRestart}
+                  id="play-again-button"
+                  className="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-[11px] uppercase tracking-widest rounded-xl shadow-lg hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer"
+                >
+                  RUN AGAIN
+                </button>
+
+                {/* GO TO MENU trigger */}
+                <button
+                  onClick={onGoToMenu}
+                  id="go-to-menu-button"
+                  className="w-full py-3 bg-slate-900/80 hover:bg-slate-800 text-zinc-200 hover:text-white font-bold text-[11px] uppercase tracking-widest rounded-xl border border-slate-800 hover:border-slate-700 shadow-md hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer"
+                >
+                  GO TO MENU
+                </button>
+              </div>
             </motion.div>
           )}
 
