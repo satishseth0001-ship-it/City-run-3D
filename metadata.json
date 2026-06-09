@@ -1,6 +1,6 @@
 {
-  "name": "3D Endless Runner",
-  "description": "A premium 3D endless runner game with smooth responsive swipe controls, realistic human runner silhouette, and procedural daytime city environments.",
+  "name": "Rishu City Run 3D",
+  "description": "Rishu City Run 3D - A premium endless city runner adventure.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

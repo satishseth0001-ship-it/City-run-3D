@@ -197,44 +197,89 @@ export default function HUD({
         </div>
       </div>
 
-      {/* --- ACTIVE POWER-UPSROW --- */}
+      {/* --- ACTIVE POWER-UPS HUD (BOTTOM-CENTER) --- */}
       {gameState === 'RUNNING' && (
-        <div className="w-full flex justify-center mt-1 pointer-events-none z-20">
-          <AnimatePresence>
-            {(activePowerUps.magnet > 0 || activePowerUps.shield || activePowerUps.multiplier > 0 || activePowerUps.boost > 0) && (
-              <motion.div 
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="flex flex-wrap gap-1.5 justify-center items-center pointer-events-auto bg-slate-950/80 backdrop-blur-md px-3 py-1 rounded-xl border border-slate-800/50 shadow-xl max-w-[95%]"
-              >
-                {activePowerUps.magnet > 0 && (
-                  <span className="flex items-center gap-1 bg-red-950/30 text-red-400 px-2 py-0.5 rounded text-[9px] border border-red-500/10 font-bold">
-                    <Magnet className="w-3 h-3 text-red-500" />
-                    MAG {Math.ceil(activePowerUps.magnet)}s
-                  </span>
-                )}
-                {activePowerUps.shield && (
-                  <span className="flex items-center gap-1 bg-emerald-950/30 text-emerald-400 px-2 py-0.5 rounded text-[9px] border border-emerald-500/10 font-bold">
-                    <Shield className="w-3 h-3 text-emerald-400" />
-                    SHIELD
-                  </span>
-                )}
-                {activePowerUps.multiplier > 0 && (
-                  <span className="flex items-center gap-1 bg-amber-950/30 text-amber-400 px-2 py-0.5 rounded text-[9px] border border-amber-500/10 font-bold">
-                    <Zap className="w-3 h-3 text-amber-500" />
-                    2X {Math.ceil(activePowerUps.multiplier)}s
-                  </span>
-                )}
-                {activePowerUps.boost > 0 && (
-                  <span className="flex items-center gap-1 bg-cyan-950/30 text-cyan-400 px-2 py-0.5 rounded text-[9px] border border-cyan-500/10 font-bold">
-                    <ChevronsRight className="w-3 h-3 text-cyan-400 animate-pulse" />
-                    BOOST {Math.ceil(activePowerUps.boost)}s
-                  </span>
-                )}
-              </motion.div>
-            )}
-          </AnimatePresence>
+        <div className="absolute bottom-16 left-1/2 -translate-x-1/2 pointer-events-none z-20 flex flex-col items-center gap-2">
+          <span className="sr-only">Active Power-Ups Grid</span>
+          <div className="flex gap-2.5 items-center justify-center flex-wrap max-w-xs sm:max-w-md">
+            <AnimatePresence>
+              {activePowerUps.boost > 0 && (
+                <motion.div
+                  key="powerup-boost"
+                  initial={{ opacity: 0, scale: 0.8, y: 15 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, y: 10 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                  className="flex items-center gap-2 bg-slate-950/90 text-cyan-405 px-3 py-1.5 rounded-xl border border-cyan-500/30 shadow-[0_4px_16px_rgba(6,182,212,0.2)] font-black text-[10px] tracking-wide pointer-events-auto"
+                >
+                  <div className="p-1 rounded-lg bg-cyan-550/15 text-cyan-400 border border-cyan-500/20">
+                    <ChevronsRight className="w-3.5 h-3.5 animate-pulse" />
+                  </div>
+                  <div className="flex flex-col text-left">
+                    <span className="text-[7.5px] font-sans text-cyan-400/60 font-black tracking-widest uppercase leading-none">BOOST</span>
+                    <span className="leading-none mt-0.5 text-white font-mono">{Math.ceil(activePowerUps.boost)}s</span>
+                  </div>
+                </motion.div>
+              )}
+
+              {activePowerUps.multiplier > 0 && (
+                <motion.div
+                  key="powerup-multiplier"
+                  initial={{ opacity: 0, scale: 0.8, y: 15 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, y: 10 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                  className="flex items-center gap-2 bg-slate-950/90 text-amber-405 px-3 py-1.5 rounded-xl border border-amber-500/30 shadow-[0_4px_16px_rgba(245,158,11,0.2)] font-black text-[10px] tracking-wide pointer-events-auto"
+                >
+                  <div className="p-1 rounded-lg bg-amber-550/15 text-amber-400 border border-amber-500/20">
+                    <Zap className="w-3.5 h-3.5" />
+                  </div>
+                  <div className="flex flex-col text-left">
+                    <span className="text-[7.5px] font-sans text-amber-400/60 font-black tracking-widest uppercase leading-none">SPEED X2</span>
+                    <span className="leading-none mt-0.5 text-white font-mono">{Math.ceil(activePowerUps.multiplier)}s</span>
+                  </div>
+                </motion.div>
+              )}
+
+              {activePowerUps.magnet > 0 && (
+                <motion.div
+                  key="powerup-magnet"
+                  initial={{ opacity: 0, scale: 0.8, y: 15 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, y: 10 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                  className="flex items-center gap-2 bg-slate-950/90 text-red-405 px-3 py-1.5 rounded-xl border border-red-500/30 shadow-[0_4px_16px_rgba(239,68,68,0.2)] font-black text-[10px] tracking-wide pointer-events-auto"
+                >
+                  <div className="p-1 rounded-lg bg-red-550/15 text-red-400 border border-red-500/20">
+                    <Magnet className="w-3.5 h-3.5" />
+                  </div>
+                  <div className="flex flex-col text-left">
+                    <span className="text-[7.5px] font-sans text-red-400/60 font-black tracking-widest uppercase leading-none">MAGNET</span>
+                    <span className="leading-none mt-0.5 text-white font-mono">{Math.ceil(activePowerUps.magnet)}s</span>
+                  </div>
+                </motion.div>
+              )}
+
+              {activePowerUps.shield && (
+                <motion.div
+                  key="powerup-shield"
+                  initial={{ opacity: 0, scale: 0.8, y: 15 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, y: 10 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                  className="flex items-center gap-2 bg-slate-950/90 text-emerald-405 px-3 py-1.5 rounded-xl border border-emerald-500/30 shadow-[0_4px_16px_rgba(16,185,129,0.2)] font-black text-[10px] tracking-wide pointer-events-auto"
+                >
+                  <div className="p-1 rounded-lg bg-emerald-555/15 text-emerald-400 border border-emerald-500/20">
+                    <Shield className="w-3.5 h-3.5" />
+                  </div>
+                  <div className="flex flex-col text-left">
+                    <span className="text-[7.5px] font-sans text-emerald-400/60 font-black tracking-widest uppercase leading-none">SHIELD</span>
+                    <span className="leading-none mt-0.5 text-emerald-400 font-black tracking-widest uppercase text-[9px]">ACTIVE</span>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       )}
 
@@ -278,9 +323,12 @@ export default function HUD({
                     
                     <div>
                       <h1 className="text-xl font-black text-white tracking-tight uppercase leading-none">
-                        DASH <span className="text-cyan-400 text-glow">RUNNER 3D</span>
+                        CITY <span className="text-cyan-400 text-glow">RUN 3D</span>
                       </h1>
-                      <p className="text-[10px] text-slate-400 max-w-[240px] mt-1 mx-auto leading-relaxed">
+                      <span className="text-[9.5px] font-sans font-bold tracking-[0.14em] text-slate-400 uppercase leading-none block mt-1.5">
+                        Powered by <span className="text-cyan-400 font-black">Rishu</span>
+                      </span>
+                      <p className="text-[10px] text-slate-400 max-w-[240px] mt-2.5 mx-auto leading-relaxed">
                         Ready your reflexes. Speed scales progresively in this high-fidelity 3D daytime metropolis.
                       </p>
                     </div>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <!-- Background with full coverage for safety -->
+  <rect width="512" height="512" fill="#090d16" />
+  <!-- Neon elements scaled to fit cleanly within 10% outer padding for safe Android adaptive icons -->
+  <g transform="translate(51, 51) scale(0.8)">
+    <path d="M 50 380 L 462 380 M 50 420 L 462 420 M 50 460 L 462 460" stroke="#0e1726" stroke-width="2" />
+    <path d="M 120 340 L 40 480 M 200 340 L 160 480 M 312 340 L 352 480 M 392 340 L 472 480" stroke="#0e1726" stroke-width="2" />
+    <path d="M 120 280 L 220 280 L 190 320 L 290 320 L 230 400" stroke="#06b6d4" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity="0.3" filter="drop-shadow(0px 0px 8px #06b6d3)" />
+    <path d="M 120 280 L 220 280 L 190 320 L 290 320 L 230 400" stroke="#06b6d4" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+    <g transform="translate(140, 130) scale(1.15)">
+      <path d="M 20 60 Q 40 10 90 20 Q 95 30 70 70 Z" fill="#ec4899" opacity="0.8" />
+      <path d="M 5 70 Q 25 30 70 40 Q 75 50 50 80 Z" fill="#06b6d4" opacity="0.8" />
+      <path d="M 90 20 C 120 15, 160 55, 180 85 C 200 115, 210 130, 220 132 L 150 132 C 120 125, 100 95, 90 20 Z" fill="#ffffff" />
+      <path d="M 60 120 L 230 120 Q 240 120 238 126 C 235 132, 210 135, 150 135 C 90 135, 70 132, 60 126 Z" fill="#06b6d4" />
+      <path d="M 70 135 L 75 142 M 100 135 L 105 142 M 130 135 L 135 142 M 160 135 L 165 142 M 190 135 L 195 142 M 220 135 L 225 142" stroke="#0891b2" stroke-width="4" stroke-linecap="round" />
+      <line x1="125" y1="45" x2="145" y2="65" stroke="#ec4899" stroke-width="6" stroke-linecap="round" />
+      <line x1="140" y1="35" x2="160" y2="55" stroke="#06b6d4" stroke-width="6" stroke-linecap="round" />
+      <line x1="155" y1="25" x2="175" y2="45" stroke="#edfcfd" stroke-width="6" stroke-linecap="round" />
+    </g>
+  </g>
+</svg>

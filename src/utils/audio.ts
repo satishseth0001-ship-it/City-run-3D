@@ -42,21 +42,21 @@ export class GameAudio {
       return;
     }
 
-    // Initialize core gains
+    // Initialize core gains - Set to high levels for maximum depth and presence
     this.masterGain = this.ctx.createGain();
-    this.masterGain.gain.setValueAtTime(this.isMuted ? 0 : 0.8, this.ctx.currentTime);
+    this.masterGain.gain.setValueAtTime(this.isMuted ? 0 : 1.0, this.ctx.currentTime);
     this.masterGain.connect(this.ctx.destination);
 
     this.musicGain = this.ctx.createGain();
-    this.musicGain.gain.setValueAtTime(0.40, this.ctx.currentTime); // elegant background music volume
+    this.musicGain.gain.setValueAtTime(0.95, this.ctx.currentTime); // very high background music volume
     this.musicGain.connect(this.masterGain);
 
     this.ambienceGain = this.ctx.createGain();
-    this.ambienceGain.gain.setValueAtTime(0.15, this.ctx.currentTime); // quiet ambient wind/rumble
+    this.ambienceGain.gain.setValueAtTime(0.38, this.ctx.currentTime); // high city & traffic background ambience
     this.ambienceGain.connect(this.masterGain);
 
     this.sfxGain = this.ctx.createGain();
-    this.sfxGain.gain.setValueAtTime(0.65, this.ctx.currentTime);
+    this.sfxGain.gain.setValueAtTime(0.90, this.ctx.currentTime); // high sfx gain for punchy game audio
     this.sfxGain.connect(this.masterGain);
 
     // Bootstrap general assets
@@ -87,7 +87,7 @@ export class GameAudio {
   toggleMute() {
     this.isMuted = !this.isMuted;
     if (this.ctx && this.masterGain) {
-      const targetVolume = this.isMuted ? 0 : 0.8;
+      const targetVolume = this.isMuted ? 0 : 1.0;
       // Fade nicely to prevent clicks/pop sounds
       this.masterGain.gain.linearRampToValueAtTime(targetVolume, this.ctx.currentTime + 0.08);
     }
@@ -126,7 +126,7 @@ export class GameAudio {
       windFilter.Q.setValueAtTime(1.5, this.ctx.currentTime);
 
       const windGain = this.ctx.createGain();
-      windGain.gain.setValueAtTime(0.35, this.ctx.currentTime); // scale wind volume slightly lower than direct rumble
+      windGain.gain.setValueAtTime(0.55, this.ctx.currentTime); // scale wind volume slightly lower than direct rumble but highly present
 
       // LFO for organic breathing filter sweeps
       const windLFO = this.ctx.createOscillator();
@@ -233,7 +233,7 @@ export class GameAudio {
       bassFilter.frequency.setValueAtTime(240, time);
       bassFilter.frequency.exponentialRampToValueAtTime(85, time + 0.22);
 
-      bassGain.gain.setValueAtTime(0.08, time);
+      bassGain.gain.setValueAtTime(0.20, time);
       bassGain.gain.exponentialRampToValueAtTime(0.001, time + 0.22);
 
       bassNode.connect(bassFilter);
@@ -278,7 +278,7 @@ export class GameAudio {
     }
 
     if (melFreq > 0) {
-      playDelayedSynth(melFreq, time, 0.40, 0.05); // Play notes clearly
+      playDelayedSynth(melFreq, time, 0.40, 0.16); // Play notes clearly with maximum intensity and presence
     }
   }
 
@@ -313,7 +313,7 @@ export class GameAudio {
       f.Q.setValueAtTime(6.0, this.ctx.currentTime);
 
       const noiseGain = this.ctx.createGain();
-      noiseGain.gain.setValueAtTime(0.012, this.ctx.currentTime);
+      noiseGain.gain.setValueAtTime(0.024, this.ctx.currentTime);
       noiseGain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.04);
 
       noise.connect(f);
@@ -328,7 +328,7 @@ export class GameAudio {
       thudNode.frequency.setValueAtTime(120, this.ctx.currentTime);
       thudNode.frequency.exponentialRampToValueAtTime(32, this.ctx.currentTime + 0.038);
 
-      thudGain.gain.setValueAtTime(0.016, this.ctx.currentTime);
+      thudGain.gain.setValueAtTime(0.032, this.ctx.currentTime);
       thudGain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.038);
 
       thudNode.connect(thudGain);
@@ -356,7 +356,7 @@ export class GameAudio {
     osc.frequency.setValueAtTime(1479.98, now); // F#6
     osc.frequency.setValueAtTime(1975.53, now + 0.06); // B6
 
-    gain.gain.setValueAtTime(0.035, now);
+    gain.gain.setValueAtTime(0.12, now); // Significantly increased for a highly satisfying, noticeable ding
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
 
     osc.connect(gain);
@@ -383,7 +383,7 @@ export class GameAudio {
     filter.Q.setValueAtTime(3, now);
 
     const noiseGain = this.ctx.createGain();
-    noiseGain.gain.setValueAtTime(0.03, now);
+    noiseGain.gain.setValueAtTime(0.07, now); // Enhanced shoe jump puff sound loudness
     noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
 
     noise.connect(filter);
@@ -398,7 +398,7 @@ export class GameAudio {
     osc.frequency.setValueAtTime(140, now);
     osc.frequency.exponentialRampToValueAtTime(360, now + 0.14);
 
-    gain.gain.setValueAtTime(0.08, now);
+    gain.gain.setValueAtTime(0.18, now); // Highly energetic, driving triangle wave jump sweep
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
 
     osc.connect(gain);
@@ -428,7 +428,7 @@ export class GameAudio {
     filter.Q.setValueAtTime(1.8, now);
 
     const noiseGain = this.ctx.createGain();
-    noiseGain.gain.setValueAtTime(0.035, now);
+    noiseGain.gain.setValueAtTime(0.08, now); // Enhanced friction swoosh slide loudness
     noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
 
     noise.connect(filter);
@@ -443,7 +443,7 @@ export class GameAudio {
     osc.frequency.setValueAtTime(260, now);
     osc.frequency.exponentialRampToValueAtTime(75, now + 0.22);
 
-    gain.gain.setValueAtTime(0.06, now);
+    gain.gain.setValueAtTime(0.15, now); // Deep sweeping dive slide tone
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
 
     osc.connect(gain);
@@ -471,7 +471,7 @@ export class GameAudio {
     listFilter.frequency.setValueAtTime(350, now);
 
     const noiseGain = this.ctx.createGain();
-    noiseGain.gain.setValueAtTime(0.12, now);
+    noiseGain.gain.setValueAtTime(0.24, now);
     noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
 
     noise.connect(listFilter);
@@ -490,7 +490,7 @@ export class GameAudio {
     osc2.frequency.setValueAtTime(95, now);
     osc2.frequency.linearRampToValueAtTime(15, now + 0.42);
 
-    gain.gain.setValueAtTime(0.18, now);
+    gain.gain.setValueAtTime(0.32, now);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
 
     osc1.connect(gain);
@@ -523,7 +523,7 @@ export class GameAudio {
     osc2.frequency.setValueAtTime(659.25, now); // E5
     osc2.frequency.exponentialRampToValueAtTime(1318.51, now + 0.35); // E6
 
-    gainNode.gain.setValueAtTime(0.08, now);
+    gainNode.gain.setValueAtTime(0.18, now);
     gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.40);
 
     osc1.connect(gainNode);
@@ -553,7 +553,7 @@ export class GameAudio {
     osc.frequency.setValueAtTime(800, now);
     osc.frequency.exponentialRampToValueAtTime(120, now + 0.32);
 
-    oscGain.gain.setValueAtTime(0.09, now);
+    oscGain.gain.setValueAtTime(0.18, now);
     oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
 
     osc.connect(oscGain);
@@ -566,7 +566,7 @@ export class GameAudio {
     filter.frequency.exponentialRampToValueAtTime(200, now + 0.28);
     filter.Q.setValueAtTime(4.0, now);
 
-    noiseGain.gain.setValueAtTime(0.06, now);
+    noiseGain.gain.setValueAtTime(0.12, now);
     noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.30);
 
     noise.connect(filter);

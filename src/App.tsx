@@ -278,8 +278,11 @@ export default function App() {
               <span className="text-[10px] font-black tracking-widest text-cyan-400 uppercase">Metropolitan Core</span>
             </div>
             <h2 className="text-xl font-black text-white tracking-tight uppercase leading-none">
-              DASH RUNNER <span className="text-slate-500 font-mono">3D</span>
+              CITY RUN <span className="text-cyan-400 font-mono">3D</span>
             </h2>
+            <div className="text-[9px] font-sans font-bold tracking-[0.14em] text-slate-400 uppercase leading-none">
+              Powered by <span className="text-cyan-400 font-black">Rishu</span>
+            </div>
             <p className="text-xs text-slate-400 leading-relaxed mt-1">
               Test your tactical swiping reflexes by switching lanes, jumping hurdles, and sliding below dangerous overhead warning bars.
             </p>

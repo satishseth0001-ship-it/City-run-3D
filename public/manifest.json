@@ -1,0 +1,26 @@
+{
+  "name": "Rishu City Run 3D",
+  "short_name": "RCR 3D",
+  "description": "Rishu City Run 3D - A premium endless city runner adventure.",
+  "start_url": "/",
+  "id": "/index.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#090d16",
+  "theme_color": "#06b6d4",
+  "categories": ["games", "arcade", "action"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
